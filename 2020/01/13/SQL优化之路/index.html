@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://scorgudupio.github.io">
-  <title>标签 | TechBoy</title>
+  <title>SQL优化之路 | TechBoy</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="刘旭的个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="标签">
-<meta property="og:url" content="http://scorgudupio.github.io/tags/index.html">
+  <meta name="description" content="SQL编写技巧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL优化之路">
+<meta property="og:url" content="http://scorgudupio.github.io/2020/01/13/SQL%E4%BC%98%E5%8C%96%E4%B9%8B%E8%B7%AF/index.html">
 <meta property="og:site_name" content="TechBoy">
-<meta property="og:description" content="刘旭的个人博客">
+<meta property="og:description" content="SQL编写技巧">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-01-09T08:56:57.000Z">
-<meta property="article:modified_time" content="2020-01-09T09:11:32.757Z">
+<meta property="article:published_time" content="2020-01-13T07:02:32.000Z">
+<meta property="article:modified_time" content="2020-01-13T07:21:30.344Z">
 <meta property="article:author" content="Liu Xu">
-<meta property="article:tag" content="Java Python JS ...">
+<meta property="article:tag" content="Web">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="TechBoy" type="application/atom+xml">
@@ -188,20 +188,260 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article class="article article-type-post show">
-  <header class="article-header" style="border-bottom: 1px solid #ccc">
-  <h1 class="article-title" itemprop="name">
-    标签
-  </h1>
-  </header>
+            <article id="post-SQL优化之路" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner" style="background:#eaeaea;overflow: hidden;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);border-radius: 18px;">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SQL优化之路
+    </h1>
+  
+
+        
+        <a href="/2020/01/13/SQL%E4%BC%98%E5%8C%96%E4%B9%8B%E8%B7%AF/" class="archive-article-date">
+  	<time datetime="2020-01-13T07:02:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-13</time>
+</a>
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text" style="font-size: 16px;color: grey">  字数统计: </span>
+        <!--这里样式可以自己定制-->
+        <span class="post-count" style="font-size: 16px;color: grey">424字</span>
+      </span>
+    </span>
+    
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text" style="font-size: 16px;color: grey">  阅读时长: </span>
+        <span class="post-count" style="font-size: 16px;color: grey">1分</span>
+      </span>
+    </span>
+</div>
+          
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SQL编写技巧</p>
+<a id="more"></a>
+
+<ul>
+<li><p>合理使用索引</p>
+</li>
+<li><p>使用UNION ALL 替代 UNION</p>
+<blockquote>
+<p>UNION ALL的执行效率比UNION高，UNION执行时需要排重；UNION需要对数据进行排序</p>
+</blockquote>
+</li>
+<li><p>避免select * 写法</p>
+<blockquote>
+<p>执行SQL时优化器需要将 * 转成具体的列；每次查询都要回表，不能走覆盖索引。</p>
+</blockquote>
+</li>
+<li><p>JOIN字段建议建立索引</p>
+<blockquote>
+<p>一般JOIN字段都提前加上索引</p>
+</blockquote>
+</li>
+<li><p>避免复杂sql语句</p>
+<blockquote>
+<p>提升可阅读性；避免慢查询的概率；可以转换成多个短查询，用业务端处理</p>
+</blockquote>
+</li>
+<li><p>避免where 1=1写法</p>
+</li>
+<li><p>避免order by rand()类似写法</p>
+<blockquote>
+<p>RAND()导致数据列被多次扫描</p>
+</blockquote>
+</li>
+<li><p>尽量少用（或者不用）SQLserver自带的函数</p>
+<blockquote>
+<p>select id from t where substring(name,1,3) = ’abc’<br>select id from t where datediff(day,createdate,’2020-1-13′) = 0<br>可以这样查询：<br>select id from t where name like ‘abc%’<br>select id from t where createdate &gt;= ‘2020-1-13’ and createdate &lt; ‘2020-1-14’</p>
+</blockquote>
+</li>
+<li><p>连续数值条件，用BETWEEN不用IN</p>
+<blockquote>
+<p>SELECT id FROM t WHERE num BETWEEN 1 AND 5</p>
+</blockquote>
+</li>
+<li><p>Update 语句，如果只更改1、2个字段，不要Update全部字段，否则频繁调用会引起明显的性能消耗</p>
+</li>
+<li><p>尽量使用数字型字段，若只含数值信息的字段尽量不要设计为字符型</p>
+</li>
+<li><p>表与表之间通过一个冗余字段来关联，要比直接使用JOIN有更好的性能</p>
+</li>
+<li><p>select count(*) from table；这样不带任何条件的count会引起全表扫描</p>
+</li>
+<li><p>避免在WHERE子句中使用in，not  in，or 或者having</p>
+<blockquote>
+<p>可以使用 exist 和not exist代替 in和not in。<br>可以使用表链接代替 exist。<br>Having可以用where代替，如果无法代替可以分两步处理。</p>
+</blockquote>
+</li>
+</ul>
+
+      
+
+      
+      
+        <div class="declare" hidden="hidden"></div>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Web</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/SQL//" class="article-tag-list-link color4">SQL</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://scorgudupio.github.io/2020/01/13/SQL%E4%BC%98%E5%8C%96%E4%B9%8B%E8%B7%AF/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
 
   
-  <div class="category-all-page">
-    <h2>共计&nbsp;2&nbsp;个标签</h2>
-    <ul class="category-list-item-list" itemprop="keywords"><li class="category-list-item-list-item"><a class="category-list-item-list-link" href="/tags/Web/" rel="tag">Web</a><span class="category-list-item-list-count">2</span></li><li class="category-list-item-list-item"><a class="category-list-item-list-link" href="/tags/%E6%B5%8B%E8%AF%95/" rel="tag">测试</a><span class="category-list-item-list-count">1</span></li></ul>
-  </div>
+<nav id="article-nav">
   
-</article>
+  
+    <a href="/2020/01/13/Util-%E5%9B%BE%E7%89%87%E9%AA%8C%E8%AF%81%E7%A0%81/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Util-图片验证码</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+  
+      <div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+
+<script>
+var gitalk = new Gitalk({
+  clientID: '2ef85c364123420b8294',
+  clientSecret: 'c21b763bfa4f88a23331ad8c6f5c3323fb4b8287',
+  repo: 'blogtalk',
+  owner: 'scorgudupio',
+  admin: ['scorgudupio'],
+  id: md5(window.location.pathname),
+  distractionFreeMode: true
+})
+
+gitalk.render('gitalk-container')
+</script>
+  
+
 
           </div>
         </div>
@@ -252,7 +492,7 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
