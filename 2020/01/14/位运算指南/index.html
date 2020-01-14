@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://scorgudupio.github.io">
-  <title>Category: 也是测试 | TechBoy</title>
+  <title>位运算指南 | TechBoy</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="刘旭的个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="TechBoy">
-<meta property="og:url" content="http://scorgudupio.github.io/categories/%E4%B9%9F%E6%98%AF%E6%B5%8B%E8%AF%95/index.html">
+  <meta name="description" content="程序中的位运算技巧总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="位运算指南">
+<meta property="og:url" content="http://scorgudupio.github.io/2020/01/14/%E4%BD%8D%E8%BF%90%E7%AE%97%E6%8C%87%E5%8D%97/index.html">
 <meta property="og:site_name" content="TechBoy">
-<meta property="og:description" content="刘旭的个人博客">
+<meta property="og:description" content="程序中的位运算技巧总结">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-14T06:34:08.000Z">
+<meta property="article:modified_time" content="2020-01-14T07:12:15.319Z">
 <meta property="article:author" content="Liu Xu">
-<meta property="article:tag" content="Java Python JS ...">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="TechBoy" type="application/atom+xml">
@@ -186,71 +188,238 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-位运算指南" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner" style="background:#eaeaea;overflow: hidden;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);border-radius: 18px;">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/08/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" class="archive-article-date">
-  	<time datetime="2020-01-08T07:22:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-08</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/08/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">我的第一篇博客</a>
+    <h1 class="article-title" itemprop="name">
+      位运算指南
     </h1>
   
 
-        <div class="article-info info-on-right">
+        
+        <a href="/2020/01/14/%E4%BD%8D%E8%BF%90%E7%AE%97%E6%8C%87%E5%8D%97/" class="archive-article-date">
+  	<time datetime="2020-01-14T06:34:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-14</time>
+</a>
+        
+          <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text" style="font-size: 16px;color: grey">  字数统计: </span>
+        <!--这里样式可以自己定制-->
+        <span class="post-count" style="font-size: 16px;color: grey">765字</span>
+      </span>
+    </span>
+    
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text" style="font-size: 16px;color: grey">  阅读时长: </span>
+        <span class="post-count" style="font-size: 16px;color: grey">3分</span>
+      </span>
+    </span>
+</div>
           
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>程序中的位运算技巧总结</p>
+<a id="more"></a>
+
+<p>程序运行，效率极其重要，因此合理使用位算法可以极大提升程序性能(装逼必备)</p>
+<h3 id="1、判断奇偶数"><a href="#1、判断奇偶数" class="headerlink" title="1、判断奇偶数"></a>1、判断奇偶数</h3><p>把 n 以二进制的形式展示的话，其实我们只需要判断最后一个二进制位是 1 还是 0 就行了，如果是 1 的话，代表是奇数，如果是 0 则代表是偶数，所以采用位运算的方式的话，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(n &amp; <span class="number">1</span> == <span class="number">1</span>)&#123;</span><br><span class="line">	<span class="comment">// n是个奇数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、交换两个数"><a href="#2、交换两个数" class="headerlink" title="2、交换两个数"></a>2、交换两个数</h3><p>万一哪天有人要为难你，不允许你使用额外的辅助变量来完成交换呢？你还别说，有人面试确实被问过，这个时候，位运算大法就来了。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x = x ^ y  <span class="comment">//(1)</span></span><br><span class="line">y = x ^ y  <span class="comment">//(2)</span></span><br><span class="line">x = x ^ y  <span class="comment">//(3)</span></span><br></pre></td></tr></table></figure>
+
+<p>我们知道，两个相同的数异或之后结果会等于 0，即 n ^ n = 0。并且任何数与 0 异或等于它本身，即 n ^ 0 = n。所以，解释如下：</p>
+<p>把（1）中的 x 带入 （2）中的 x，有</p>
+<p>y = x^y = (xy)y = x(yy) = x^0 = x。 x 的值成功赋给了 y。</p>
+<p>对于（3）,推导如下：</p>
+<p>x = x^y = (xy)x = (xx)y = 0^y = y。</p>
+<blockquote>
+<p>异或运算支持交换律和结合律</p>
+</blockquote>
+<h3 id="3、找出没有重复的数"><a href="#3、找出没有重复的数" class="headerlink" title="3、找出没有重复的数"></a>3、找出没有重复的数</h3><blockquote>
+<p>给你一组整型数据，这些数据中，其中有一个数只出现了一次，其他的数都出现了两次，让你来找出一个数 </p>
+</blockquote>
+<p>正常会使用哈希表来存储，每次存储时，记录某个数出现的次数，最后遍历哈希表，找出出现一次的，这种方法的时间复杂度为O(n)，空间复杂度也为O(n)</p>
+<p>们刚才说过，两个相同的数异或的结果是 0，一个数和 0 异或的结果是它本身，所以我们把这一组整型全部异或一下，例如这组数据是：1， 2， 3， 4， 5， 1， 2， 3， 4。其中 5 只出现了一次，其他都出现了两次，把他们全部异或一下，结果如下：</p>
+<p>由于异或支持交换律和结合律，所以:</p>
+<p>123451234 = （11)(22)(33)(44)5= 00005 = 5。</p>
+<p>也就是说，那些出现了两次的数异或之后会变成0，那个出现一次的数，和 0 异或之后就等于它本身。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span>[] arr)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp = arr[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>;i &lt; arr.length; i++)&#123;</span><br><span class="line">        tmp = tmp ^ arr[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>时间负责度O(n)，空间复杂度O(1)</p>
+<h3 id="4、m的n次方"><a href="#4、m的n次方" class="headerlink" title="4、m的n次方"></a>4、m的n次方</h3><p>我举个例子吧，例如 n = 13，则 n 的二进制表示为 1101, 那么 m 的 13 次方可以拆解为:</p>
+<p>m^1101 = m^0001 * m^0100 * m^1000</p>
+<p>m^1101 = m<sup>1</sup> * m<sup>4</sup> * m<sup>8</sup></p>
+<p>我们可以通过 &amp; 1和 &gt;&gt;1 来逐位读取 1101，为1时将该位代表的乘数累乘到最终结果。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pow</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> tmp = m;</span><br><span class="line">    <span class="keyword">while</span>(n != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(n &amp; <span class="number">1</span> == <span class="number">1</span>)&#123;</span><br><span class="line">            sum *= tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        tmp *= tmp;</span><br><span class="line">        n = n &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度近为 O(logn)</p>
+
+      
+
+      
+      
+        <div class="declare" hidden="hidden"></div>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">测试</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/也是测试//" class="article-tag-list-link color5">也是测试</a>
+        			<a href="/categories/Linux//" class="article-tag-list-link color1">Linux</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://scorgudupio.github.io/2020/01/14/%E4%BD%8D%E8%BF%90%E7%AE%97%E6%8C%87%E5%8D%97/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/01/13/%E6%91%B8%E9%B1%BC%E5%B0%8F%E6%B8%B8%E6%88%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">摸鱼小游戏</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
+  
+      <div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+
+<script>
+var gitalk = new Gitalk({
+  clientID: '2ef85c364123420b8294',
+  clientSecret: 'c21b763bfa4f88a23331ad8c6f5c3323fb4b8287',
+  repo: 'blogtalk',
+  owner: 'scorgudupio',
+  admin: ['scorgudupio'],
+  id: md5(window.location.pathname),
+  distractionFreeMode: true
+})
+
+gitalk.render('gitalk-container')
+</script>
+  
 
 
           </div>
@@ -302,10 +471,10 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
-		isCategory: true,
+		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
 		root: "/",
